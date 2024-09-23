@@ -8,7 +8,6 @@ const Summary = () => {
   const dispatch = useDispatch();
   const { city, data } = useSelector((state: RootState) => state.weather);
 
-
   const [inputCity, setInputCity] = useState('');
   const handleSearch = async () => {
     try {
@@ -18,26 +17,35 @@ const Summary = () => {
     } catch (error) {
       console.error('Error fetching weather data:', error);
     }
-  }
-  return <div>
+  };
 
-    <input
-      type="text"
-      value={inputCity}
-      onChange={(e) => setInputCity(e.target.value)}
-      placeholder="Enter city"
-    />
-    <button onClick={handleSearch}>Get Weather</button>
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <input
+          type="text"
+          value={inputCity}
+          onChange={(e) => setInputCity(e.target.value)}
+          placeholder="Enter city"
+          className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={handleSearch}
+          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"
+        >
+          Get Weather
+        </button>
 
-    {data && (
-      <div>
-        <h2>{data.name}</h2>
-        <p>Temperature: {data.main.temp}°C</p>
-        <p>Weather: {data.weather[0].description}</p>
+        {data && (
+          <div className="mt-6 text-center">
+            <h2 className="text-xl font-semibold text-gray-800">{data.sys.country} {data.name}</h2>
+            <p className="text-lg text-gray-600">Temperature: {data.main.temp}°C</p>
+            <p className="text-lg text-gray-600 capitalize">Weather: {data.weather[0].description}</p>
+          </div>
+        )}
       </div>
-    )}
-  </div>
-
-}
+    </div>
+  );
+};
 
 export default Summary;
